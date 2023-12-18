@@ -26,6 +26,7 @@ DB_CHARSET = os.getenv("DB_CHARSET", "utf8mb4")
 # Creating a connection string
 ssl_args = {'ssl': {'fake_flag_to_enable_tls': True}}
 connection_string = f'mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}/{DB_DATABASE}?charset={DB_CHARSET}'
+connection_string += '&'.join([f'{key}={value}' for key, value in ssl_args.items()])
 
 # Create a database engine
 db_engine = create_engine(connection_string, echo=False)
@@ -33,10 +34,8 @@ db_engine = create_engine(connection_string, echo=False)
 def execute_query_to_dataframe(query: str):
     return read_sql(query, db_engine)
 
-def get_table_data(table_name, limit=None):
-    query = f"SELECT * FROM {table_name}"
-    if limit is not None:
-        query += f" LIMIT {limit}"
+def get_table_data(table_name, limit=50):
+    query = f"SELECT * FROM {table_name} LIMIT {limit}"
     return pd.read_sql(query, db_engine)
 
 def get_table_column_names(table_name):
@@ -59,7 +58,7 @@ def aboutpage():
 @app.route('/morbidity')
 def morbidity():
     table_name = "data3"
-    limit = 50
+    limit = 45
     data = get_table_data(table_name, limit=limit)
     column_names = get_table_column_names(table_name)
     return render_template('morbidity.html', column_names=column_names, data3=data.to_html())
@@ -67,7 +66,7 @@ def morbidity():
 @app.route('/mortality')
 def mortality():
     table_name = "data1"
-    limit = 50
+    limit = 45
     data = get_table_data(table_name, limit=limit)
     column_names = get_table_column_names(table_name)
     return render_template('mortality.html', column_names=column_names, data1=data.to_html())
