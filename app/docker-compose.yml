@@ -1,0 +1,9 @@
+version: '3'
+services:
+  app:
+    build: 
+      context: /home/jward6301/flask_e2e_project/app
+    ports:
+      - "5001:5000"
+    volumes:
+      - /home/jward6301/flask_e2e_project/app:/app

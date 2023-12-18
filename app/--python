@@ -1,0 +1,8 @@
+Select a number for worker runtime:
+1. dotnet
+2. dotnet (isolated process)
+3. node
+4. python
+5. powershell
+6. custom
+Choose option: 

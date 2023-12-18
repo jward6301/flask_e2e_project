@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+    <h1 class="text-xl mb-2 font-bold">Data representing the pregnancy-associated mortality rate in NYC 2016 to 2020.</h1>
+    
+    {% if table_data is defined %}
+        <table class="table-auto">
+            <thead>
+                <tr>
+                    {% for column in column_names %}
+                        <th class="px-4 py-2 title-cell">{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for _, row in table_data.iterrows() %}
+                    <tr>
+                        {% for column in column_names %}
+                            <td class="border px-4 py-2">{{ row[column] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-red-500">Error: Unable to retrieve data.</p>
+    {% endif %}
+</section>
+
+{% endblock %}
