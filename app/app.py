@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 from sqlalchemy import create_engine, text
-
 import os
 from dotenv import load_dotenv
 import sentry_sdk
