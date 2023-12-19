@@ -1,7 +1,6 @@
 from flask import Flask, render_template
-from sqlalchemy import create_engine, select, MetaData, Table
-from pandas import read_sql
-import pandas as pd
+from sqlalchemy import create_engine, text
+
 import os
 from dotenv import load_dotenv
 import sentry_sdk
@@ -22,28 +21,14 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_PORT = int(os.getenv("DB_PORT", 3306))
 DB_CHARSET = os.getenv("DB_CHARSET", "utf8mb4")
 
-# Creating a connection string
-connection_string = f'mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}/{DB_DATABASE}?ssl=false'
+# Creating a connection string with ssl=false
+ssl_params = {'ssl': {'fake_flag_to_enable_tls': True}}
+connection_string = f'mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}/{DB_DATABASE}'
 
-# Create a database engine
-db_engine = create_engine(connection_string, echo=False)
-
-metadata = MetaData()
-
-def execute_query_to_dataframe(select_query):
-    result_proxy = db_engine.execute(select_query)
-    return pd.DataFrame(result_proxy.fetchall(), columns=result_proxy.keys())
-
-def get_table_data(table_name, limit=50):
-    table = Table(table_name, metadata, autoload_with=db_engine)
-    query = select([table]).limit(limit)
-    return pd.read_sql(query, db_engine)
-
-def get_table_column_names(table_name):
-    with db_engine.connect() as connection:
-        query = f"SHOW COLUMNS FROM {table_name}"
-        result = connection.execute(query)
-        return [row[0] for row in result]
+engine = create_engine(
+    connection_string,
+    connect_args=ssl_params
+)
 
 # Create a flask application
 app = Flask(__name__)
@@ -58,19 +43,19 @@ def aboutpage():
 
 @app.route('/morbidity')
 def morbidity():
-    table_name = "data3"
-    limit = 45
-    data = get_table_data(table_name, limit=limit)
-    column_names = get_table_column_names(table_name)
-    return render_template('morbidity.html', column_names=column_names, table_data=data, table_columns=column_names)
+    with create_engine(connection_string).connect() as connection:
+        query1 = text('SELECT * FROM data3')
+        result1 = connection.execute(query1)
+        db_data1 = result1.fetchall()
+    return render_template('morbidity.html', data3=db_data1)
 
 @app.route('/mortality')
 def mortality():
-    table_name = "data1"
-    limit = 45
-    data = get_table_data(table_name, limit=limit)
-    column_names = get_table_column_names(table_name)
-    return render_template('mortality.html', column_names=column_names, table_data=data, table_columns=column_names)
+    with create_engine(connection_string).connect() as connection:
+        query2 = text('SELECT * FROM data1')
+        result2 = connection.execute(query2)
+        db_data2 = result2.fetchall()
+    return render_template('morbidity.html', data1=db_data2)
 
 @app.route('/additionalinfo')
 def additionalinfo():
