@@ -68,6 +68,6 @@ alembic.ini
 
 ## Sentry.io
 - I was unsure how to add the logs of sentry.io to my cloud shell but I have attached screenshots of some of the logs here: https://github.com/jward6301/flask_e2e_project/tree/main/docs/Screenshots/Sentry.io
-- My error test from the app.py is also in this file. 
+- My error test from the app.py is also in this file. (There is no logs folder due to this, it is all in the docs folder). 
 
 
