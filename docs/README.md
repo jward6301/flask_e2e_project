@@ -2,7 +2,12 @@
 HHA 504 Final Assignment
 
 ## Web service
-* My web service provides datasets 
+* My web service provides datasets from NYC regarding pregancy morbidity and mortality
+* All info was downloaded from https://catalog.data.gov/dataset
+* Once the webiste is opened, you are brought to the index page. Then there are 4 tabs, about, morbidity, mortality and additional info. About explains what the website is. The morbidity and mortality tabs reflect the data from csv files that were downlaoded from https://catalog.data.gov/dataset. Additional infor provides information about Pregnancy Risk Assessment Monitoring System (PRAMS).
+
+
+## Technologies Used
 It should contain a brief explanation of
 The web service you created (what is it and what does it do)
 The technologies you used

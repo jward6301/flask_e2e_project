@@ -5,28 +5,55 @@
 <section>
     <h1 class="text-xl mb-2 font-bold">Data representing the pregnancy-associated morbidity rates</h1>
     
-    {% if table_data is defined %}
-        <table class="table-auto">
-            <thead>
+    {% if data3 and data3|length > 0 %}
+    <table class="table-auto">
+        <thead>
+            <tr>
+                <th class="px-4 py-2">Year</th>
+                <th class="px-4 py-2">Race/Ethnicity</th>
+                <th class="px-4 py-2">Education</th>
+                <th class="px-4 py-2">Borough</th>
+                <th class="px-4 py-2">Nativity</th>
+                <th class="px-4 py-2">Age</th>
+                <th class="px-4 py-2">Insurance</th>
+                <th class="px-4 py-2">Trimester</th>
+                <th class="px-4 py-2">Diabetes</th>
+                <th class="px-4 py-2">Hypertension</th>
+                <th class="px-4 py-2">Heart Disease</th>
+                <th class="px-4 py-2">Employed</th>
+                <th class="px-4 py-2">Miscarriage</th>
+                <th class="px-4 py-2">Parity</th>
+                <th class="px-4 py-2">SMM</th>
+                <th class="px-4 py-2">SMM Rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data3 %}
                 <tr>
-                    {% for column in table_columns %}
-                        <th class="px-4 py-2 title-cell">{{ column }}</th>
-                    {% endfor %}
+                    <td class="border px-4 py-2">{{ row["Year"] }}</td>
+                    <td class="border px-4 py-2">{{ row["Race_ethnicity"] }}</td>
+                    <td class="border px-4 py-2">{{ row["Education"] }}</td>
+                    <td class="border px-4 py-2">{{ row["Borough"] }}</td>
+                    <td class="border px-4 py-2">{{ row["Nativity"] }}</td>
+                    <td class="border px-4 py-2">{{ row["Age"] }}</td>
+                    <td class="border px-4 py-2">{{ row["Insurance"] }}</td>
+                    <td class="border px-4 py-2">{{ row["Trimester"] }}</td>
+                    <td class="border px-4 py-2">{{ row["Diabetes"] }}</td>
+                    <td class="border px-4 py-2">{{ row["Hypertension"] }}</td>
+                    <td class="border px-4 py-2">{{ row["Heart_Disease"] }}</td>
+                    <td class="border px-4 py-2">{{ row["Employed"] }}</td>
+                    <td class="border px-4 py-2">{{ row["Miscarriage"] }}</td>
+                    <td class="border px-4 py-2">{{ row["Parity"] }}</td>
+                    <td class="border px-4 py-2">{{ row["SMM"] }}</td>
+                    <td class="border px-4 py-2">{{ row["SMM_Rate"] }}</td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for _, row in table_data.iterrows() %}
-                    <tr>
-                        {% for column in table_columns %}
-                            <td class="border px-4 py-2">{{ row[column] }}</td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+            {% endfor %}
+        </tbody>
+    </table>
     {% else %}
-        <p class="text-red-500">Error: Unable to retrieve data.</p>
+        <p class="text-red-500">Error: Unable to retrieve data or empty dataset.</p>
     {% endif %}
 </section>
 
 {% endblock %}
+
