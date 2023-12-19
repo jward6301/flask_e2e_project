@@ -4,6 +4,6 @@ services:
     build: 
       context: /home/jward6301/flask_e2e_project/app
     ports:
-      - "5001:5000"
+      - "5000:5001"
     volumes:
       - /home/jward6301/flask_e2e_project/app:/app

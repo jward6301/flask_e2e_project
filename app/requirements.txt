@@ -3,3 +3,10 @@ python-dotenv
 sentry-sdk
 SQLAlchemy
 pymysql
+Flask-Session
+Jinja2
+pandas
+gunicorn
+authlib
+requests
+flask-sqlalchemy

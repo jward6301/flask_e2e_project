@@ -9,7 +9,7 @@
         <table class="table-auto">
             <thead>
                 <tr>
-                    {% for column in column_names %}
+                    {% for column in table_columns %}
                         <th class="px-4 py-2 title-cell">{{ column }}</th>
                     {% endfor %}
                 </tr>
@@ -17,7 +17,7 @@
             <tbody>
                 {% for _, row in table_data.iterrows() %}
                     <tr>
-                        {% for column in column_names %}
+                        {% for column in table_columns %}
                             <td class="border px-4 py-2">{{ row[column] }}</td>
                         {% endfor %}
                     </tr>

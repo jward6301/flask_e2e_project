@@ -1,10 +1,9 @@
-from flask import Flask, render_template, request
-from sqlalchemy import create_engine, inspect
-import os
-from dotenv import load_dotenv
+from flask import Flask, render_template
+from sqlalchemy import create_engine
 from pandas import read_sql
 import pandas as pd
-
+import os
+from dotenv import load_dotenv
 import sentry_sdk
 
 sentry_sdk.init(
@@ -24,9 +23,7 @@ DB_PORT = int(os.getenv("DB_PORT", 3306))
 DB_CHARSET = os.getenv("DB_CHARSET", "utf8mb4")
 
 # Creating a connection string
-ssl_args = {'ssl': {'fake_flag_to_enable_tls': True}}
-connection_string = f'mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}/{DB_DATABASE}?charset={DB_CHARSET}'
-connection_string += '&'.join([f'{key}={value}' for key, value in ssl_args.items()])
+connection_string = f'mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}/{DB_DATABASE}'
 
 # Create a database engine
 db_engine = create_engine(connection_string, echo=False)
@@ -61,7 +58,8 @@ def morbidity():
     limit = 45
     data = get_table_data(table_name, limit=limit)
     column_names = get_table_column_names(table_name)
-    return render_template('morbidity.html', column_names=column_names, data3=data.to_html())
+    return render_template('morbidity.html', column_names=column_names, table_data=data, table_columns=column_names)
+
 
 @app.route('/mortality')
 def mortality():
@@ -69,12 +67,11 @@ def mortality():
     limit = 45
     data = get_table_data(table_name, limit=limit)
     column_names = get_table_column_names(table_name)
-    return render_template('mortality.html', column_names=column_names, data1=data.to_html())
-
+    return render_template('mortality.html', column_names=column_names, table_data=data, table_columns=column_names)
 
 @app.route('/error')
 def error():
     raise Exception('This is a test error for Sentry Testing')
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5001)
